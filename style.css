@@ -132,14 +132,14 @@ body {
 	font-size: 16px;
 }
 
-.bot {
+.user {
 	display: flex;
 	flex-direction: row-reverse;
 	margin: 0 0 15px auto;
 	max-width: 50%;
 }
 
-.bot img {
+.user img {
 	margin: 0px 0px 0px 4px;
 }
 
@@ -217,7 +217,7 @@ body {
 		right: auto;
 	}
 	.chat__messages {
-		height: calc(100vh - 390px);
+		height: calc(100vh - 410px);
 		margin: 0px 0px 20px 0px;
 	}
 }

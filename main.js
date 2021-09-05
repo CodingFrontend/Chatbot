@@ -106,14 +106,36 @@ const addChat = (input, product) => {
 
 	bot.appendChild(botImg);
 	bot.appendChild(botText);
+
+
 	setTimeout(() => {
-		botText.innerHTML = `<div class="bot-inner"><span class="response">${product}</span></div>`
+		messagesBox.appendChild(bot);
+		console.log(isUnderstand)
+		if (isUserSent > 1 && isUnderstand) {
+			let botTextArr = [];
+			for (let i = 0; i < isUserSent; i++) {
+				let el = product;
+				botTextArr.push(`${el}`)
+				setTimeout(() => {
+
+					botText.innerHTML = `<div class="bot-inner"><span class="response"> ${product}</span></div>`; isUserSent = 0;
+				}, 1000)
+			}
+		} else {
+			setTimeout(() => {
+				botText.innerHTML = `<div class="bot-inner"><span class="response"> ${product}</span></div>`;
+				isUserSent = 0;
+			}, 1000)
+		}
+		console.log(isUserSent)
 	}, 1000)
-	messagesBox.appendChild(bot);
 	setTimeout(() => {
 		speak(product);
-	}, 1000)
+	}, 2000)
 }
+
+let isUserSent = 0;
+let isUnderstand = true;
 
 const output = (input) => {
 	let product;
@@ -129,10 +151,13 @@ const output = (input) => {
 		product = compare(trigger, reply, text);
 	} else if (text.match(/robot/gi)) {
 		product = robot[Math.floor(Math.random() * robot.length)];
+		isUnderstand = false;
 	} else {
 		product = alternative[Math.floor(Math.random() * alternative.length)];
+		isUnderstand = false;
 	}
 	addChat(input, product);
+
 }
 
 const showExamples = (examplesArr, index) => {
@@ -172,7 +197,6 @@ const selectExample = () => {
 		example.addEventListener('click', hadlerClickExample)
 	})
 }
-
 // final function
 const chatbot = () => {
 	let index = 0;
@@ -180,7 +204,8 @@ const chatbot = () => {
 	selectExample();
 	const input = document.querySelector(".chat__input");
 	input.addEventListener("keydown", function (e) {
-		if (e.code === "Enter") {
+		if (e.keyCode == '13') {
+			isUserSent++;
 			let inputValue = input.value;
 			output(inputValue);
 			input.value = "";
